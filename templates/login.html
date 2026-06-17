@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión - Minimarket Nelly</title>
+    <link rel="stylesheet" href="/static/css/styles_index.css">
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 4rem auto;
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--r);
+            box-shadow: var(--shadow-md);
+        }
+        .login-box h2 { color: var(--dark); margin-bottom: 1.5rem; }
+        .login-box input {
+            width: 100%;
+            padding: 0.65rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .login-box button {
+            width: 100%;
+            padding: 0.7rem;
+            background: linear-gradient(135deg, var(--mid), var(--light));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .error { color: #c62828; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <a class="brand" href="/">Minimarket <span style="color:var(--gold)">Nelly</span></a>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/productos">Productos</a>
+        <a href="/contactos">Contacto</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="login-box">
+        <h2>Iniciar sesión</h2>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <form method="post">
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

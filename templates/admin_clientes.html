@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Clientes</title>
+    <link rel="stylesheet" href="/static/css/styles_index.css">
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; background: var(--card); }
+        th, td { padding: 0.75rem; border-bottom: 1px solid var(--border); text-align: left; }
+        th { background: var(--dark); color: white; }
+        .btn-sm { padding: 0.3rem 0.6rem; font-size: 0.8rem; border-radius: 4px; text-decoration: none; color: white; }
+        .btn-edit { background: var(--light); }
+        .btn-del { background: #c62828; border: none; cursor: pointer; }
+        .btn-new { display: inline-block; margin: 1rem 0; background: var(--gold); color: var(--dark); font-weight: 600; }
+    </style>
+</head>
+<body>
+<header>
+    <a class="brand" href="/admin">Admin <span style="color:var(--gold)">Nelly</span></a>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/productos">Productos</a>
+        <a href="/admin/clientes">Clientes</a>
+        <a href="/logout">Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Clientes</h2>
+    <a href="/admin/clientes/nuevo" class="btn-sm btn-new">+ Nuevo cliente</a>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.id }}</td>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>
+                    <a href="/admin/clientes/editar/{{ cliente.id }}" class="btn-sm btn-edit">Editar</a>
+                    <form method="post" action="/admin/clientes/eliminar/{{ cliente.id }}" style="display:inline;">
+                        <button type="submit" class="btn-sm btn-del" onclick="return confirm('¿Eliminar cliente?')">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

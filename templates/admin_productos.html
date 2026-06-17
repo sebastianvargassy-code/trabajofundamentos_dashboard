@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Productos - Admin Nelly</title>
+    <link rel="stylesheet" href="/static/css/styles_index.css">
+    <style>
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0 1rem 0;
+        }
+        .btn-nuevo {
+            padding: 0.6rem 1.2rem;
+            background: #c89a3e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .tabla-container {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background-color: #f9f9f9;
+            color: var(--dark);
+        }
+        .img-mini {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .acciones {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-editar {
+            padding: 0.3rem 0.6rem;
+            background: #3182ce;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .btn-eliminar {
+            padding: 0.3rem 0.6rem;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a class="brand" href="/admin">Admin <span style="color:var(--gold)">Nelly</span></a>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/productos">Productos</a>
+        <a href="/admin/clientes">Clientes</a>
+        <a href="/logout">Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="admin-header">
+        <h2>Gestión de Productos</h2>
+        <a href="/admin/productos/nuevo" class="btn-nuevo">+ Nuevo Producto</a>
+    </div>
+
+    <div class="tabla-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Peso</th>
+                    <th>Precio</th>
+                    <th>Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in productos %}
+                <tr>
+                    <td><img src="{{ producto.img }}" alt="{{ producto.nombre }}" class="img-mini"></td>
+                    <td>{{ producto.id }}</td>
+                    <td><strong>{{ producto.nombre }}</strong></td>
+                    <td>{{ producto.peso }}</td>
+                    <td>S/ {{ "%.2f"|format(producto.precio) }}</td>
+                    <td>{{ producto.fecha_registro }}</td>
+                    <td class="acciones">
+                        <a href="/admin/productos/editar/{{ producto.id }}" class="btn-editar">Editar</a>
+                        <form action="/admin/productos/eliminar/{{ producto.id }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
+                            <button type="submit" class="btn-eliminar">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

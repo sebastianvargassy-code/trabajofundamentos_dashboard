@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }} - Admin</title>
+    <link rel="stylesheet" href="/static/css/styles_index.css">
+    <style>
+        .form-box {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--r);
+            box-shadow: var(--shadow-sm);
+        }
+        .form-box input {
+            width: 100%;
+            padding: 0.6rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+        .form-box button {
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--mid), var(--light));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a class="brand" href="/admin">Admin <span style="color:var(--gold)">Nelly</span></a>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/productos">Productos</a>
+        <a href="/admin/clientes">Clientes</a>
+        <a href="/logout">Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="form-box">
+        <h2>{{ titulo }}</h2>
+        <form method="post">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" value="{{ cliente.nombre if cliente else '' }}" required>
+
+            <label>Email:</label>
+            <input type="email" name="email" value="{{ cliente.email if cliente else '' }}" required>
+
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" value="{{ cliente.telefono if cliente else '' }}">
+
+            <button type="submit">Guardar</button>
+            <a href="/admin/clientes" style="margin-left: 1rem;">Cancelar</a>
+        </form>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,353 @@
+/* ================================================
+   ESTILOS GLOBALES - Minimarket Nelly
+   Versión Mejorada
+================================================ */
+
+:root {
+  --dark: #4a2c0a;
+  --mid: #6b3f10;
+  --light: #8a5320;
+  --gold: #c89a3e;
+
+  --bg: #faf6ee;
+  --card: #ffffff;
+
+  --text: #2c1a06;
+  --muted: #7a5c38;
+  --border: #e0d0b8;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+  --r: 12px;
+
+  --transition: 0.25s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+header {
+  background: linear-gradient(
+    135deg,
+    var(--dark),
+    var(--mid)
+  );
+
+  padding: 0 1.5rem;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow: var(--shadow-md);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.9rem 0;
+
+  color: #f0d98d;
+  text-decoration: none;
+
+  font-size: 1.2rem;
+  font-weight: 700;
+
+  transition: var(--transition);
+}
+
+.brand:hover {
+  transform: scale(1.03);
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.5rem 0;
+}
+
+nav a {
+  color: #f3ece2;
+  text-decoration: none;
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+
+  transition: var(--transition);
+}
+
+nav a:hover {
+  background: rgba(200, 154, 62, 0.25);
+  color: #fff;
+}
+
+nav a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* CONTAINER */
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+
+  flex: 1;
+}
+
+/* BOTONES */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.5rem;
+
+  padding: 0.7rem 1.3rem;
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 0.9rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  text-decoration: none;
+
+  transition: var(--transition);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--mid),
+    var(--light)
+  );
+
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:focus-visible {
+  outline: 3px solid rgba(200, 154, 62, 0.4);
+}
+
+/* HERO */
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+
+  flex-wrap: wrap;
+
+  background: linear-gradient(
+    135deg,
+    #f5ecdb,
+    #efe3cb
+  );
+
+  padding: 3rem;
+  border-radius: var(--r);
+
+  margin-bottom: 2rem;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.hero-text h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--dark);
+
+  line-height: 1.15;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.hero img {
+  flex: 1;
+  min-width: 260px;
+  max-width: 450px;
+
+  width: 100%;
+  height: auto;
+
+  border-radius: var(--r);
+
+  object-fit: cover;
+
+  box-shadow: var(--shadow-md);
+}
+
+/* FEATURES */
+
+.features {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 1.25rem;
+}
+
+.feat {
+  background: var(--card);
+
+  padding: 1.5rem;
+
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+
+  text-align: center;
+
+  box-shadow: var(--shadow-sm);
+
+  transition: var(--transition);
+}
+
+.feat:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.feat h3 {
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+
+  font-size: 1rem;
+}
+
+.feat p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.feat .icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--gold);
+}
+
+/* FOOTER */
+
+footer {
+  background: var(--dark);
+
+  color: #b79b7b;
+
+  text-align: center;
+
+  padding: 1.25rem;
+  margin-top: auto;
+
+  font-size: 0.85rem;
+}
+
+footer strong {
+  color: var(--gold);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .hero-text h2 {
+    font-size: 1.8rem;
+  }
+}

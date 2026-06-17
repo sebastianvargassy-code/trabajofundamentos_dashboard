@@ -1,0 +1,263 @@
+:root {
+  --dark: #4a2c0a;
+  --mid: #6b3f10;
+  --light: #8a5320;
+  --gold: #c89a3e;
+  --bg: #faf6ee;
+  --card: #ffffff;
+  --text: #2c1a06;
+  --muted: #7a5c38;
+  --border: #e0d0b8;
+  --r: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: linear-gradient(135deg, var(--dark), var(--mid));
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0;
+  color: #e8d18a;
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem 0;
+}
+
+nav a {
+  color: #e8dfd0;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+nav a:hover {
+  background: rgba(200, 154, 62, 0.25);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 1.5rem auto;
+  padding: 0 1.25rem;
+  flex: 1;
+}
+
+.contacto {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.contacto h2 {
+  color: var(--dark);
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.contacto-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.contacto-info {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 1.8rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(74, 44, 10, 0.08);
+  display: grid;
+  gap: 1.2rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.icono {
+  font-weight: 700;
+  color: var(--mid);
+  min-width: 70px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-item h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.info-item p {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.info-item.redes {
+  align-items: center;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.3rem;
+}
+
+.social-links a {
+  color: var(--mid);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.social-links a:hover {
+  background: var(--mid);
+  color: #fff;
+}
+
+.mapa {
+  background: var(--card);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 12px rgba(74, 44, 10, 0.08);
+}
+
+.mapa h3 {
+  color: var(--dark);
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.mapa-placeholder {
+  background: var(--bg);
+  border-radius: var(--r);
+  padding: 2rem;
+  text-align: center;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--border);
+}
+
+.mapa-placeholder p {
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.mapa-placeholder a {
+  color: var(--light);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mapa-placeholder a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  background: var(--dark);
+  color: #9e8060;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+  font-size: 0.8rem;
+}
+
+footer strong {
+  color: var(--gold);
+}
+
+@media (max-width: 600px) {
+  .contacto-info {
+    padding: 1.2rem;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.3rem;
+  }
+
+  .icono {
+    min-width: auto;
+  }
+
+  .social-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .mapa-placeholder {
+    padding: 1.5rem;
+    min-height: 120px;
+  }
+
+  .contacto h2 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}

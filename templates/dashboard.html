@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin Nelly</title>
+    <link rel="stylesheet" href="/static/css/styles_index.css">
+    <style>
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            margin-top: 1rem;
+        }
+        .kpi-card {
+            background: var(--card, #fff);
+            padding: 1.5rem;
+            border-radius: var(--r, 8px);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            border-top: 4px solid var(--gold, #c89a3e);
+        }
+        .kpi-card h3 {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kpi-card .valor {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            line-height: 1.2;
+        }
+        .kpi-card .referencia {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        /* Nueva grilla mixta para dona y tabla de movimientos */
+        .mixed-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .chart-box {
+            background: var(--card, #fff);
+            padding: 1.5rem;
+            border-radius: var(--r, 8px);
+            box-shadow: var(--shadow-sm);
+        }
+        .chart-box h3 {
+            margin-bottom: 1.25rem;
+            color: var(--dark);
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--border, #eee);
+            padding-bottom: 0.5rem;
+        }
+        /* Estilos de la mini tabla de auditoría */
+        .mini-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        .mini-table th, .mini-table td {
+            padding: 0.6rem;
+            border-bottom: 1px solid var(--border, #eee);
+        }
+        .mini-table th {
+            background: #faf6ee;
+            color: var(--dark);
+            font-weight: 700;
+        }
+        .badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .badge-success { background: #e6f4ea; color: #137333; }
+        .badge-info { background: #e8f0fe; color: #1a73e8; }
+
+        .actualizacion {
+            text-align: right;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        @media (max-width: 900px) {
+            .mixed-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <a class="brand" href="/admin">Admin <span style="color:var(--gold)">Nelly</span></a>
+    <nav>
+        <a href="/admin">Dashboard</a>
+        <a href="/admin/productos">Productos</a>
+        <a href="/admin/clientes">Clientes</a>
+        <a href="/logout">Cerrar sesión</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2 style="margin-top:1.5rem;">Panel de Administración y Métricas</h2>
+
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <h3>Productos Activos</h3>
+            <div class="valor">{{ total_productos }}</div>
+            <div class="referencia">
+                {% if variacion_productos > 0 %}
+                    <span style="color:green; font-weight:bold;">+{{ variacion_productos }}</span> vs. inicio
+                {% elif variacion_productos < 0 %}
+                    <span style="color:red; font-weight:bold;">{{ variacion_productos }}</span> vs. inicio
+                {% else %}
+                    Sin cambios (Base: 7)
+                {% endif %}
+            </div>
+        </div>
+        <div class="kpi-card">
+            <h3>Precio Promedio</h3>
+            <div class="valor">S/ {{ "%.2f"|format(precio_promedio) }}</div>
+            <div class="referencia">Meta objetivo: S/ 5.50</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Clientes Registrados</h3>
+            <div class="valor">{{ total_clientes }}</div>
+            <div class="referencia">Objetivo del mes: 50</div>
+        </div>
+        <div class="kpi-card">
+            <h3>Ventas Estimadas</h3>
+            <div class="valor">S/ {{ "%.2f"|format(ventas_mes) }}</div>
+            <div class="referencia">Simulado s/ interacciones</div>
+        </div>
+    </div>
+
+    <div class="chart-grid">
+        <div class="chart-box">
+            <h3>Flujo de Caja Semanal (S/)</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-box">
+            <h3>Registros Recientes de la Plataforma</h3>
+            <div style="position: relative; height: 260px;">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="mixed-grid">
+        <div class="chart-box">
+            <h3>Distribución de Precios</h3>
+            <div style="position: relative; height: 220px;">
+                <canvas id="donutChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-box">
+            <h3>Últimas Acciones del Sistema</h3>
+            <table class="mini-table">
+                <thead>
+                    <tr>
+                        <th>Módulo</th>
+                        <th>Descripción del Evento</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-info">Inventario</span></td>
+                        <td>Consulta general de catálogo desde frontend</td>
+                        <td><span style="color: #1a73e8;">● Activo</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">Usuarios</span></td>
+                        <td>Sincronización de base de datos exitosa</td>
+                        <td><span style="color: #137333;">● Completado</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-info">Carrito</span></td>
+                        <td>Simulación de compra procesada con éxito</td>
+                        <td><span style="color: #137333;">● Sincronizado</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="actualizacion">
+        Última sincronización en tiempo real: <strong>{{ hora_actual }}</strong>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+    // 1. Gráfico de Líneas (Ventas de la Semana)
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: {{ dias | tojson }},
+            datasets: [{
+                label: 'Ventas Diarias',
+                data: {{ ventas_diarias | tojson }},
+                borderColor: '#6b3f10',
+                backgroundColor: 'rgba(107, 63, 16, 0.06)',
+                fill: true,
+                tension: 0.35,
+                pointBackgroundColor: '#c89a3e'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 2. Gráfico de Barras (Nuevos Registros)
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: {{ dias | tojson }},
+            datasets: [
+                {
+                    label: 'Nuevos Clientes',
+                    data: {{ nuevos_clientes_linea | tojson }},
+                    backgroundColor: '#c89a3e',
+                    borderRadius: 3
+                },
+                {
+                    label: 'Nuevos Productos',
+                    data: {{ nuevos_productos_linea | tojson }},
+                    backgroundColor: '#6b3f10',
+                    borderRadius: 3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+    });
+
+    // 3. NUEVO Gráfico de Dona (Distribución usando tus rangos de Python)
+    const ctxDonut = document.getElementById('donutChart').getContext('2d');
+    new Chart(ctxDonut, {
+        type: 'doughnut',
+        data: {
+            labels: ['Menores a S/5', 'S/5 a S/10', 'Mayores a S/10'],
+            datasets: [{
+                data: [{{ rango1 }}, {{ rango2 }}, {{ rango3 }}],
+                backgroundColor: ['#6b3f10', '#c89a3e', '#d7ccc8'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: { boxWidth: 12, font: { size: 11 } }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

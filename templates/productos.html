@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimarket Nelly - Productos</title>
+    <link rel="stylesheet" href="/static/css/styles_productos.css">
+</head>
+<body>
+
+<header>
+    <a class="brand" href="/">Minimarket <span>Nelly</span></a>
+    <nav>
+        <a href="/">← Inicio</a>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="productos-layout">
+
+        <!-- SECCIÓN DE PRODUCTOS (GRID) -->
+        <div class="productos-grid">
+            <h2> Nuestros Productos</h2>
+            <div class="grid-productos" id="lista-productos">
+                {% for producto in productos %}
+                <div class="card-producto">
+                    <img src="{{ url_for('static', filename='img/' + producto.img) }}" alt="{{ producto.nombre }}">
+                    <strong>{{ producto.nombre }}</strong>
+                    <span class="peso">{{ producto.peso }}</span>
+                    <span class="precio">S/ {{ "%.2f"|format(producto.precio) }}</span>
+                    <button onclick="agregarAlCarrito({{ producto.id }})">Añadir</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- ASIDE DEL CARRITO -->
+        <aside class="carrito-aside">
+            <div class="card-carrito" id="carrito-container">
+                <h3>Tu Carrito</h3>
+                <div id="carrito-vacio" class="carrito-vacio">
+                    <p>Tu carrito está vacío.</p>
+                </div>
+                <div id="carrito-items" style="display: none;">
+                    <!-- Los items se insertarán dinámicamente -->
+                </div>
+            </div>
+        </aside>
+
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 <strong>Minimarket Nelly</strong>. Todos los derechos reservados.
+</footer>
+
+<!-- SCRIPT DEL CARRITO (simple, sin dependencias) -->
+<script src="/static/scripts/js_productos.js"></script>
+
+</body>
+</html>
